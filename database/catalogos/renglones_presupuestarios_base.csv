@@ -1,0 +1,36 @@
+﻿grupo,subgrupo,renglon,concepto,activo
+1,11,111,"EnergÃ­a elÃ©ctrica",true
+1,11,112,"Agua",true
+1,11,113,"TelefonÃ­a",true
+1,14,141,"Transporte de personas",true
+1,14,142,"Fletes",true
+1,14,143,"Almacenaje",true
+1,18,181,"Estudios, investigaciones y proyectos de pre-factibilidad y factibilidad",true
+1,18,182,"Servicios mÃ©dico-sanitarios",true
+1,18,183,"Servicios jurÃ­dicos",true
+1,18,184,"Servicios econÃ³micos, financieros, contables y de auditorÃ­a",true
+1,18,185,"Servicios de capacitaciÃ³n",true
+1,18,186,"Servicios de informÃ¡tica y sistemas computarizados",true
+1,18,189,"Otros estudios y/o servicios",true
+1,19,199,"Otros servicios",true
+2,21,211,"Alimentos para personas",true
+2,24,241,"Papel de escritorio",true
+2,24,242,"Papeles comerciales, cartulinas, cartones y otros",true
+2,24,243,"Productos de papel o cartÃ³n",true
+2,26,262,"Combustibles y lubricantes",true
+2,26,266,"Productos medicinales y farmacÃ©uticos",true
+2,26,267,"Tintes, pinturas y colorantes",true
+2,26,268,"Productos plÃ¡sticos, nylon, vinil y P.V.C.",true
+2,26,269,"Otros productos quÃ­micos y conexos",true
+2,29,291,"Ãštiles de oficina",true
+2,29,292,"Productos sanitarios, de limpieza y de uso personal",true
+2,29,293,"Ãštiles educacionales y culturales",true
+2,29,294,"Ãštiles deportivos y recreativos",true
+2,29,295,"Ãštiles menores, suministros e instrumental mÃ©dico-quirÃºrgicos, de laboratorio y cuidado de la salud",true
+2,29,297,"Materiales, productos y accesorios elÃ©ctricos, cableado estructurado de redes informÃ¡ticas y telefÃ³nicas",true
+2,29,298,"Accesorios y repuestos en general",true
+2,29,299,"Otros materiales y suministros",true
+3,32,322,"Mobiliario y equipo de oficina",true
+3,32,323,"Mobiliario y equipo mÃ©dico-sanitario y de laboratorio",true
+3,32,325,"Equipo de transporte",true
+3,32,328,"Equipo de cÃ³mputo",true

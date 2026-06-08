@@ -1,0 +1,33 @@
+﻿services:
+  postgres:
+    image: postgres:16
+    container_name: compras_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: compras_bot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - compras_postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: compras_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: compras_ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - compras_ollama_data:/root/.ollama
+
+volumes:
+  compras_postgres_data:
+  compras_ollama_data:

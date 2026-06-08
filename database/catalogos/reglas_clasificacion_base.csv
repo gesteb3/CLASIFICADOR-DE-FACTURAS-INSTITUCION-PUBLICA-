@@ -1,0 +1,26 @@
+﻿keyword,renglon,prioridad,activo
+"transporte de personas",141,100,true
+"servicio de transporte",141,95,true
+"pacientes",141,80,true
+"adultos mayores",141,80,true
+"flete",142,100,true
+"papel bond",241,100,true
+"papel",241,80,true
+"combustible",262,100,true
+"gasolina",262,100,true
+"diesel",262,100,true
+"medicina",266,100,true
+"medicamento",266,100,true
+"pintura",267,100,true
+"plastico",268,90,true
+"plÃ¡stico",268,90,true
+"toner",291,95,true
+"tÃ³ner",291,95,true
+"utiles de oficina",291,100,true
+"Ãºtiles de oficina",291,100,true
+"limpieza",292,100,true
+"desinfectante",292,90,true
+"escoba",292,90,true
+"mopa",292,90,true
+"cable",297,90,true
+"repuesto",298,90,true
