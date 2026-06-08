@@ -1,10 +1,11 @@
 from datetime import datetime, timezone
+
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
 from app.models import Invoice, InvoiceItem
-from app.services.pdf_extractor_service import extract_invoice_data
 from app.services.classification_service import classify_item
+from app.services.pdf_extractor_service import extract_invoice_data
 
 
 def process_invoice_job(invoice_id: int) -> None:
@@ -51,12 +52,24 @@ def process_invoice_job(invoice_id: int) -> None:
             print(f"No se detectaron items en la factura {invoice_id}")
             return
 
+        descripcion_ia_por_linea = {}
+
         for item_data in items:
+            line_number = item_data.get("line_number")
+
+            descripcion_original = item_data.get("descripcion") or ""
+            descripcion_para_ia = (
+                item_data.get("descripcion_para_ia")
+                or descripcion_original
+            )
+
+            descripcion_ia_por_linea[line_number] = descripcion_para_ia
+
             item = InvoiceItem(
                 invoice_id=invoice.id,
-                line_number=item_data.get("line_number"),
+                line_number=line_number,
                 tipo=item_data.get("tipo"),
-                descripcion=item_data.get("descripcion") or "",
+                descripcion=descripcion_original,
                 cantidad=item_data.get("cantidad"),
                 precio_unitario=item_data.get("precio_unitario"),
                 total=item_data.get("total"),
@@ -65,6 +78,7 @@ def process_invoice_job(invoice_id: int) -> None:
                 classification_origin=None,
                 estado_revision="PENDIENTE",
             )
+
             db.add(item)
 
         db.commit()
@@ -77,29 +91,41 @@ def process_invoice_job(invoice_id: int) -> None:
         )
 
         for item in saved_items:
+            item_id = item.id
+
             try:
+                descripcion_para_ia = (
+                    descripcion_ia_por_linea.get(item.line_number)
+                    or item.descripcion
+                )
+
                 budget_line, confidence, origin = classify_item(
                     db,
-                    item.descripcion,
+                    descripcion_para_ia,
                     item.tipo,
                 )
 
                 item.budget_line_id = budget_line.id if budget_line else None
                 item.classification_confidence = confidence
-                item.classification_origin = origin
+                item.classification_origin = origin or "SIN_CLASIFICACION"
+
                 db.commit()
 
             except Exception as item_error:
                 db.rollback()
 
-                item = db.query(InvoiceItem).filter(InvoiceItem.id == item.id).first()
+                item_error_db = (
+                    db.query(InvoiceItem)
+                    .filter(InvoiceItem.id == item_id)
+                    .first()
+                )
 
-                if item:
-                    item.classification_origin = "ERROR_CLASIFICACION"
-                    item.classification_confidence = None
+                if item_error_db:
+                    item_error_db.classification_origin = "ERROR_CLASIFICACION"
+                    item_error_db.classification_confidence = None
                     db.commit()
 
-                print(f"Error clasificando item {item.id if item else 'desconocido'}: {item_error}")
+                print(f"Error clasificando item {item_id}: {item_error}")
 
         invoice = db.query(Invoice).filter(Invoice.id == invoice_id).first()
 

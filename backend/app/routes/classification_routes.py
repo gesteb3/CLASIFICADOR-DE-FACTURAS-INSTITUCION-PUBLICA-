@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.services.classification_service import (
     classify_item,
+    load_budget_line_descriptions,
     preview_classification_candidates,
 )
 
@@ -14,6 +15,19 @@ router = APIRouter(prefix="/classification", tags=["Classification"])
 class ClassificationRequest(BaseModel):
     descripcion: str
     tipo: str | None = None
+
+
+@router.get("/debug-descriptions")
+def debug_descriptions():
+    descriptions = load_budget_line_descriptions()
+
+    return {
+        "total_descripciones": len(descriptions),
+        "tiene_112": "112" in descriptions,
+        "tiene_268": "268" in descriptions,
+        "tiene_299": "299" in descriptions,
+        "descripcion_268": descriptions.get("268"),
+    }
 
 
 @router.post("/candidates")
@@ -58,7 +72,7 @@ def test_classification(
             "confianza": None,
             "origen": None,
             "candidatos_usados": candidates,
-            "mensaje": "No se pudo clasificar. Revisa que Ollama esté activo y que existan renglones cargados.",
+            "mensaje": "No se pudo clasificar.",
         }
 
     return {
