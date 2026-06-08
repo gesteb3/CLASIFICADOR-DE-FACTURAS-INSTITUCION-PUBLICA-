@@ -28,6 +28,59 @@
     volumes:
       - compras_ollama_data:/root/.ollama
 
+  backend:
+    build:
+      context: ./backend
+    container_name: compras_backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./uploads:/app/uploads
+      - ./database:/app/database
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  worker_1:
+    build:
+      context: ./backend
+    container_name: compras_worker_1
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+      - ./uploads:/app/uploads
+      - ./database:/app/database
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+    command: rq worker invoices --url redis://redis:6379/0
+
+  worker_2:
+    build:
+      context: ./backend
+    container_name: compras_worker_2
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+      - ./uploads:/app/uploads
+      - ./database:/app/database
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+    command: rq worker invoices --url redis://redis:6379/0
+
 volumes:
   compras_postgres_data:
   compras_ollama_data:

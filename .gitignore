@@ -29,3 +29,7 @@ uploads/*
 # Sistema operativo
 .DS_Store
 Thumbs.db
+
+# Scripts temporales de instalación
+setup.ps1
+setup_backend.ps1
