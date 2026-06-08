@@ -1,4 +1,4 @@
-﻿import csv
+import csv
 from pathlib import Path
 from sqlalchemy.orm import Session
 
@@ -17,16 +17,16 @@ def fix_text(value: str) -> str:
         return value
 
     replacements = {
-        "Ãš": "Ú",
-        "Ãº": "ú",
-        "Ã¡": "á",
-        "Ã©": "é",
-        "Ã­": "í",
-        "Ã³": "ó",
-        "Ã±": "ñ",
-        "Ã‘": "Ñ",
-        "Ã¼": "ü",
-        "Â": "",
+        "Ú": "Ú",
+        "ú": "ú",
+        "á": "á",
+        "é": "é",
+        "í": "í",
+        "ó": "ó",
+        "ñ": "ñ",
+        "Ñ": "Ñ",
+        "ü": "ü",
+        "": "",
     }
 
     fixed = value

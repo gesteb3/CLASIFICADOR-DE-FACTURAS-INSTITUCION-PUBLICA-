@@ -1,12 +1,12 @@
-﻿# Frontend
+# Frontend
 
-AquÃ­ irÃ¡ la interfaz con React + Vite.
+Aquí irá la interfaz con React + Vite.
 
 Pantallas esperadas:
 
 - Login.
 - Subida de facturas.
 - Historial.
-- RevisiÃ³n y clasificaciÃ³n.
-- CatÃ¡logos.
-- AuditorÃ­a.
+- Revisión y clasificación.
+- Catálogos.
+- Auditoría.

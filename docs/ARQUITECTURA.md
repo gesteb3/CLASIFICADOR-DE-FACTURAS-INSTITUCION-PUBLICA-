@@ -1,4 +1,4 @@
-﻿# Arquitectura Inicial
+# Arquitectura Inicial
 
 ## Flujo
 
@@ -12,13 +12,13 @@ Factura entra a cola Redis
 â†“
 Worker procesa factura
 â†“
-Se extrae informaciÃ³n del PDF
+Se extrae información del PDF
 â†“
 Se clasifica con reglas, historial e IA local
 â†“
 Se guarda resultado
 â†“
-Usuario revisa renglÃ³n, actividad y fuente
+Usuario revisa renglón, actividad y fuente
 â†“
 Usuario aprueba
 
@@ -26,7 +26,7 @@ Usuario aprueba
 
 ### PostgreSQL
 
-Guarda usuarios, facturas, productos, renglones, actividades, fuentes y auditorÃ­a.
+Guarda usuarios, facturas, productos, renglones, actividades, fuentes y auditoría.
 
 ### Redis
 
@@ -34,7 +34,7 @@ Administra la cola de facturas.
 
 ### Ollama
 
-Ejecuta el modelo local qwen2.5:0.5b para apoyar la clasificaciÃ³n.
+Ejecuta el modelo local qwen2.5:0.5b para apoyar la clasificación.
 
 ### Worker
 

@@ -1,4 +1,4 @@
-﻿# Scripts
+# Scripts
 
 Scripts auxiliares del proyecto:
 

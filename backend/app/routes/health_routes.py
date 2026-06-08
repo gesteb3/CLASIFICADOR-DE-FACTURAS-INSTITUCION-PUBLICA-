@@ -1,4 +1,4 @@
-﻿import httpx
+import httpx
 from fastapi import APIRouter
 from sqlalchemy import text
 from app.core.config import get_settings

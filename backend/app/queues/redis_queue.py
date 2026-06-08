@@ -1,4 +1,4 @@
-﻿from redis import Redis
+from redis import Redis
 from rq import Queue
 from app.core.config import get_settings
 

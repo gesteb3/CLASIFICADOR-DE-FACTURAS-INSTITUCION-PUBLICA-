@@ -1,4 +1,4 @@
-﻿from app.models.user import User
+from app.models.user import User
 from app.models.upload_batch import UploadBatch
 from app.models.invoice import Invoice
 from app.models.invoice_item import InvoiceItem

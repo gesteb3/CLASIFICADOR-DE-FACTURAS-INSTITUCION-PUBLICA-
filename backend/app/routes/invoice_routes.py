@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 from uuid import uuid4
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from sqlalchemy.orm import Session, joinedload
@@ -7,6 +7,7 @@ from app.core.config import get_settings
 from app.database import get_db
 from app.models import Invoice, UploadBatch
 from app.queues.redis_queue import get_invoice_queue
+from app.services.pdf_extractor_service import extract_pdf_text, get_clean_lines
 from app.workers.invoice_tasks import process_invoice_job
 
 router = APIRouter(prefix="/invoices", tags=["Invoices"])
@@ -31,7 +32,7 @@ async def upload_invoices(
     if len(files) > settings.max_pdfs_per_batch:
         raise HTTPException(
             status_code=400,
-            detail=f"Solo puedes subir mÃ¡ximo {settings.max_pdfs_per_batch} PDFs por lote.",
+            detail=f"Solo puedes subir máximo {settings.max_pdfs_per_batch} PDFs por lote.",
         )
 
     pending_count = db.query(Invoice).filter(
@@ -42,7 +43,7 @@ async def upload_invoices(
     if pending_count + len(files) > settings.max_pending_invoices_per_user:
         raise HTTPException(
             status_code=400,
-            detail=f"No puedes tener mÃ¡s de {settings.max_pending_invoices_per_user} facturas pendientes o procesando.",
+            detail=f"No puedes tener más de {settings.max_pending_invoices_per_user} facturas pendientes o procesando.",
         )
 
     batch = UploadBatch(
@@ -79,7 +80,7 @@ async def upload_invoices(
         if len(content) > max_bytes:
             rejected.append({
                 "filename": file.filename,
-                "reason": f"El PDF supera el lÃ­mite de {settings.max_pdf_size_mb} MB.",
+                "reason": f"El PDF supera el límite de {settings.max_pdf_size_mb} MB.",
             })
             continue
 
@@ -143,6 +144,31 @@ def list_invoices(db: Session = Depends(get_db)):
     ]
 
 
+@router.get("/{invoice_id}/raw-text")
+def get_invoice_raw_text(invoice_id: int, db: Session = Depends(get_db)):
+    invoice = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+
+    if not invoice:
+        raise HTTPException(status_code=404, detail="Factura no encontrada.")
+
+    text = extract_pdf_text(invoice.pdf_path)
+    lines = get_clean_lines(text)
+
+    return {
+        "invoice_id": invoice.id,
+        "pdf_path": invoice.pdf_path,
+        "line_count": len(lines),
+        "lines": [
+            {
+                "number": index + 1,
+                "text": line,
+            }
+            for index, line in enumerate(lines)
+        ],
+        "raw_text": text,
+    }
+
+
 @router.get("/{invoice_id}")
 def get_invoice(invoice_id: int, db: Session = Depends(get_db)):
     invoice = db.query(Invoice).options(
@@ -151,6 +177,8 @@ def get_invoice(invoice_id: int, db: Session = Depends(get_db)):
 
     if not invoice:
         raise HTTPException(status_code=404, detail="Factura no encontrada.")
+
+    ordered_items = sorted(invoice.items, key=lambda item: item.line_number or 0)
 
     return {
         "id": invoice.id,
@@ -183,6 +211,6 @@ def get_invoice(invoice_id: int, db: Session = Depends(get_db)):
                 "classification_origin": item.classification_origin,
                 "estado_revision": item.estado_revision,
             }
-            for item in invoice.items
+            for item in ordered_items
         ],
     }

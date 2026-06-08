@@ -1,13 +1,13 @@
-﻿# Alcance MVP
+# Alcance MVP
 
 ## Entrada
 
-El sistema recibirÃ¡ facturas Ãºnicamente en PDF con texto seleccionable.
+El sistema recibirá facturas únicamente en PDF con texto seleccionable.
 
 ## Datos a extraer
 
 - Serie.
-- NÃºmero DTE.
+- Número DTE.
 - NIT emisor.
 - Proveedor.
 - NIT receptor si aparece.
@@ -17,28 +17,28 @@ El sistema recibirÃ¡ facturas Ãºnicamente en PDF con texto seleccionable.
 - Productos o servicios.
 - Cantidad.
 - Precio unitario.
-- Total por lÃ­nea.
-- DescripciÃ³n.
+- Total por línea.
+- Descripción.
 
-## ClasificaciÃ³n
+## Clasificación
 
-Cada producto o servicio tendrÃ¡ un solo renglÃ³n sugerido.
+Cada producto o servicio tendrá un solo renglón sugerido.
 
-No existirÃ¡ campo de alternativa.
+No existirá campo de alternativa.
 
-El usuario podrÃ¡ editar manualmente el renglÃ³n.
+El usuario podrá editar manualmente el renglón.
 
 ## Actividad y fuente
 
-La actividad y la fuente de financiamiento se seleccionarÃ¡n por cada lÃ­nea de factura.
+La actividad y la fuente de financiamiento se seleccionarán por cada línea de factura.
 
-Ambos campos serÃ¡n listas desplegables.
+Ambos campos serán listas desplegables.
 
 ## Procesamiento local
 
-El sistema usarÃ¡ Redis y workers para procesar facturas sin trabar la computadora.
+El sistema usará Redis y workers para procesar facturas sin trabar la computadora.
 
-LÃ­mites:
+Límites:
 
 - 10 PDFs por lote.
 - 20 facturas pendientes o procesando por usuario.

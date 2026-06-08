@@ -1,14 +1,14 @@
-﻿# Backend
+# Backend
 
-AquÃ­ irÃ¡ la API con FastAPI.
+Aquí irá la API con FastAPI.
 
 Carpetas:
 
 - models: modelos SQLAlchemy.
 - routes: endpoints.
-- services: lÃ³gica de negocio.
+- services: lógica de negocio.
 - workers: procesamiento en segundo plano.
-- queues: conexiÃ³n con Redis.
+- queues: conexión con Redis.
 - schemas: validaciones.
-- core: configuraciÃ³n.
-- catalogs: carga de catÃ¡logos.
+- core: configuración.
+- catalogs: carga de catálogos.

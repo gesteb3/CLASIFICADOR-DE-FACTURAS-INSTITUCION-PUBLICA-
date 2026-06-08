@@ -1,4 +1,4 @@
-﻿# DiseÃ±o de Base de Datos Inicial
+# Diseño de Base de Datos Inicial
 
 ## users
 
